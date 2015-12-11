@@ -1,43 +1,41 @@
-window.ImgLoader = function(){
-    throw new Error();
-}
+function ImageLoader(){
+    var _count = 0;
+    var _container = document.createElement('load');
+    _container.style.display = 'none';
+    document.head.appendChild(_container);
 
-window.ImgLoader.init = function(){
-    window.ImgLoader._count = 0;
-    window.ImgLoader.container = document.createElement('load');
-    window.ImgLoader.container.style.display = 'none';
-    document.head.appendChild(window.ImgLoader.container);
-}
+    function count(inc){
+        switch (inc) {
+            case '+': _count++;
+                break;
+            case '-': _count--;
+                break;
+            default:
+                throw new Error();
+        }
+    }
 
-window.ImgLoader.count = function(inc){
-    switch (inc) {
-        case '+': window.ImgLoader._count++;
-            break;
-        case '-': window.ImgLoader._count--;
-            break;
-        default:
-            throw new Error();
+    this.getCount = function(){
+        return _count;
+    }
+
+    this.getContainer = function(){
+        return _container;
+    }
+
+    this.isLoaded = function(){
+        return this.getCount() === 0 ? true : false;
+    }
+
+    this.load = function(_url){
+        count('+');
+        var img = document.createElement('img');
+        img.src = _url;
+        _container.appendChild(img);
+        img.onload = function(){
+            _container.removeChild(img);
+            count('-');
+        }
+        return _url;
     }
 }
-
-window.ImgLoader.getCount = function(){
-    return window.ImgLoader._count;
-}
-
-window.ImgLoader.isLoaded = function(){
-    return window.ImgLoader.getCount() === 0 ? true : false;
-}
-
-window.ImgLoader.load = function(_url){
-    window.ImgLoader.count('+');
-    var img = document.createElement('img');
-    img.src = _url;
-    window.ImgLoader.container.appendChild(img);
-    img.onload = function () {
-        window.ImgLoader.container.removeChild(img);
-        window.ImgLoader.count('-');
-    }
-    return _url;
-}
-
-window.ImgLoader.init();
