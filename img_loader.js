@@ -1,8 +1,13 @@
-window.ImgLoader = function () {
+window.ImgLoader = function(){
     throw new Error();
 }
 
-window.ImgLoader._count = 0;
+window.ImgLoader.init = function(){
+    window.ImgLoader._count = 0;
+    window.ImgLoader.container = document.createElement('load');
+    window.ImgLoader.container.style.display = 'none';
+    document.head.appendChild(window.ImgLoader.container);
+}
 
 window.ImgLoader.count = function(inc){
     switch (inc) {
@@ -19,18 +24,20 @@ window.ImgLoader.getCount = function(){
     return window.ImgLoader._count;
 }
 
-window.ImgLoader.isLoaded = function () {
+window.ImgLoader.isLoaded = function(){
     return window.ImgLoader.getCount() === 0 ? true : false;
 }
 
-window.ImgLoader.load = function (url){
+window.ImgLoader.load = function(_url){
     window.ImgLoader.count('+');
     var img = document.createElement('img');
-    img.src = url;
-    img.style.display = 'none';
-    document.body.appendChild(img);
+    img.src = _url;
+    window.ImgLoader.container.appendChild(img);
     img.onload = function () {
-        document.body.removeChild(img);
+        window.ImgLoader.container.removeChild(img);
         window.ImgLoader.count('-');
     }
+    return _url;
 }
+
+window.ImgLoader.init();
