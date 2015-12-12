@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Image Loader</title>
+        <script src="img_loader.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            var ImgLoader = new ImageLoader();
+        </script>
+        <style media="screen">
+            img{
+                width: 400px;
+            }
+            img.round-edges{
+                border-radius: 15px;
+            }
+        </style>
+    </head>
+    <body>
+
+    </body>
+    <script type="text/javascript">
+        var images = [
+            ImgLoader.load('images/small.jpg', {alt:'small image'}),
+            ImgLoader.load('images/medium.jpg', {className:'round-edges'}),
+            ImgLoader.load('images/big.jpg')
+        ];
+
+        var mainLoad = setInterval(
+            function(){
+                if(ImgLoader.isLoaded()){
+                    for (var i = 0; i < images.length; i++){
+                        document.body.appendChild(images[i]);
+                    }
+                    clearInterval(mainLoad);
+                }
+            }, 100
+        );
+    </script>
+</html>
