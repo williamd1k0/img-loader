@@ -17,7 +17,27 @@ function ImageLoader(){
     }
 
     this.isLoaded = function(){
-        return this.getCount() === 0 ? true : false;
+        return _count === 0 ? true : false;
+    }
+
+    this.onload = function(callback, interval){
+        if(typeof callback === 'undefined'){
+            console.warn("The onload method requires a callback, use isLoaded instead of onload!");
+            return this.isLoaded();
+        }else if(typeof callback === 'function'){
+            interval = typeof interval == 'number' ? interval : 100;
+            var image_check = setInterval(
+                function(){
+                    if(_count === 0){
+                        callback();
+                        clearInterval(image_check);
+                    }
+                },
+                interval
+            );
+        }else{
+            throw new Error("Invalid callback!");
+        }
     }
 
     this.load = function(_url, attr){

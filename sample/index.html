@@ -26,15 +26,13 @@
             ImgLoader.load('images/big.jpg')
         ];
 
-        var mainLoad = setInterval(
+        ImgLoader.onload(
             function(){
-                if(ImgLoader.isLoaded()){
-                    for (var i = 0; i < images.length; i++){
-                        document.body.appendChild(images[i]);
-                    }
-                    clearInterval(mainLoad);
+                for (var i = 0; i < images.length; i++){
+                    document.body.appendChild(images[i]);
                 }
-            }, 100
+            }
         );
+
     </script>
 </html>
