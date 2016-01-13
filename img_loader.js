@@ -26,15 +26,14 @@ function ImageLoader(){
             return this.isLoaded();
         }else if(typeof callback === 'function'){
             interval = typeof interval == 'number' ? interval : 100;
-            var image_check = setInterval(
-                function(){
-                    if(_count === 0){
-                        callback();
-                        clearInterval(image_check);
-                    }
-                },
-                interval
-            );
+            var event_callback = function(){
+                if(_count === 0){
+                    callback();
+                }else {
+                    setTimeout(event_callback, interval);
+                }
+            }
+            event_callback();
         }else{
             throw new Error("Invalid callback!");
         }
@@ -48,7 +47,7 @@ function ImageLoader(){
             var j = 0;
             var keys = Object.keys(attr);
             for(i in attr){
-                img[keys[j]] = attr[i];
+                img.setAttribute(keys[j], attr[i]);
                 j++;
             }
         }else{
@@ -68,6 +67,7 @@ function ImageLoader(){
         img.onload = function(){
             _container.removeChild(img);
             _count--;
+            this.onload = undefined;
         }
         return img;
     }
