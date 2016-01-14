@@ -1,7 +1,7 @@
 function ImageLoader(){
     var _count = 0;
+    var _images = [];
     var _container = document.createElement('load');
-    _container.style.display = 'none';
     document.head.appendChild(_container);
 
     function isObject(variable){
@@ -14,6 +14,14 @@ function ImageLoader(){
 
     this.getContainer = function(){
         return _container;
+    }
+
+    this.getImages = function(){
+        return _images;
+    }
+
+    this.clearImages = function(){
+        _images = [];
     }
 
     this.isLoaded = function(){
@@ -39,15 +47,15 @@ function ImageLoader(){
         }
     }
 
-    this.load = function(_url, attr){
-        attr = attr || {};
+    this.load = function(imageurl, attributes){
+        attributes = attributes || {};
         _count++;
         var img = document.createElement('img');
-        if(isObject(attr)){
+        if(isObject(attributes)){
             var j = 0;
-            var keys = Object.keys(attr);
-            for(i in attr){
-                img.setAttribute(keys[j], attr[i]);
+            var keys = Object.keys(attributes);
+            for(i in attributes){
+                img.setAttribute(keys[j], attributes[i]);
                 j++;
             }
         }else{
@@ -57,18 +65,19 @@ function ImageLoader(){
                 'color:#159',
                 'object',
                 'color:none','!',
-                '\nImage: ' + _url,
+                '\nImage: ' + imageurl,
                 '\nAttributes: ',
-                'color:#f22', attr
+                'color:#f22', attributes
             );
         }
-        img.src = _url;
+        img.src = imageurl;
         _container.appendChild(img);
         img.onload = function(){
             _container.removeChild(img);
             _count--;
             this.onload = undefined;
         }
+        _images.push(img);
         return img;
     }
 }
