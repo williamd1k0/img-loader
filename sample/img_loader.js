@@ -1,3 +1,15 @@
+/*!
+ * ImageLoader v1.1
+ * by William Tumeo - https://github.com/williamd1k0/
+ *
+ * License
+ * -------
+ * Copyright 2015 William Tumeo
+ * Released under the MIT license
+ * https://raw.githubusercontent.com/williamd1k0/img-loader/master/LICENSE
+ *
+ */
+
 function ImageLoader(){
     var _count = 0;
     var _images = [];
